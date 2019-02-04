@@ -1,3 +1,4 @@
+#result.txt to result.xls
 import xlwt
 alllines=[]
 with open('result.txt',"r") as f:
