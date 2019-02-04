@@ -33,7 +33,7 @@ Medium_diff=0
 
 def getError(y, y_):
 	#print(str(-relative_score(y, y_))+"  /  "+str(-max_relative_score(y, y_))+"  /  "+str(mean_squared_error(y, y_)**0.5))
-	print(str(-relative_score(y, y_))+" /  "+str(mean_squared_error(y, y_)**0.5))
+	print(str(-relative_score(y, y_))+"/"+str(mean_squared_error(y, y_)**0.5))
 
 def perSolvedandAveTime(p,l):
 	ret=[]
@@ -41,10 +41,10 @@ def perSolvedandAveTime(p,l):
 		if i<TIME_MAX-1:
 			ret.append(i)
 	if not p=="":
-		print(p,float(len(ret))/len(l),"/",float(sum(ret))/len(ret))
+		print(p,str(float(len(ret))/len(l))+"/"+str(float(sum(ret))/len(ret)))
 		#print(p,sum([1 if i<TIME_MAX-1 else 0 for i in l])/float(len(l))," / ",sum(l)/float(len(l)))
 	else:
-		print(float(len(ret))/len(l),"/",float(sum(ret))/len(ret))
+		print(str(float(len(ret))/len(l))+"/"+str(float(sum(ret))/len(ret)))
 		#print(sum([1 if i<TIME_MAX-1 else 0 for i in l])/float(len(l))," / ",sum(l)/float(len(l)))
 	#pass
 def printportfolio(df3):
@@ -382,8 +382,7 @@ drawLine()
 print("trainSet")
 for alg in runtimeIndex:
 	perSolvedandAveTime(alg.split("_")[1],trainResult[alg])
-print("oracle_portfolio")
-perSolvedandAveTime("",trainResult.Oracle_value.values)
+perSolvedandAveTime("oracle",trainResult.Oracle_value.values)
 
 
 for mName in "DT,RF,kNN".split(","):
@@ -394,7 +393,7 @@ for mName in "DT,RF,kNN".split(","):
 	kNNs=trainResult[runtimeIndex+kNNsIndex].copy()
 
 	#print("Error:relative_score / max_relative_score / mean_squared_error")
-	print("Error:relative_score / mean_squared_error")
+	print("relative_score/mean_squared_error")
 	for i in runtimeIndex:
 		print(i)
 		ytrue=kNNs[i].values
@@ -489,8 +488,7 @@ drawLine()
 print("validSet")
 for alg in runtimeIndex:
 	perSolvedandAveTime(alg+"",validResult[alg])
-print("oracle_portfolio")
-perSolvedandAveTime("",validResult.Oracle_value.values)
+perSolvedandAveTime("oracle",trainResult.Oracle_value.values)
 
 for mName in "DT,RF,kNN".split(","):
 	drawLine()
@@ -502,6 +500,8 @@ for mName in "DT,RF,kNN".split(","):
 	print("Error:relative_score / mean_squared_error")
 	for i in runtimeIndex:
 		print(i)
+	for i in runtimeIndex:
+		#print(i)
 		ytrue=kNNs[i].values
 		yp=kNNs[mName+"_"+i.split("_")[1]+"_pred"].values
 		getError(ytrue,yp)
@@ -553,18 +553,24 @@ for mName in "DT,RF,kNN".split(","):
 	cnt=Counter()
 	for ws in Oracle_names:
 		cnt[ws]+=1
-	print ("oracle",cnt)
+	print ("oracle")
+	for i in cnt:
+		print (i,":",cnt[i])
 	cnt=Counter()
 	#print(oredTop1)
 	for ws in oredTop1:
 		cnt[ws[0].split("_")[1]]+=1
-	print ("1st",cnt)
+	print ("1st")
+	for i in cnt:
+		print (i,":",cnt[i])
 	recalldic={}
 	for k in cnt:
 		recall=accuracyDF[accuracyDF["1st_ham"]==("runtime_"+k)]
 		recall=recall[recall.Oracle_name==k]
 		recalldic[k]=len(recall)
-	print("Recall",recalldic)
+	print ("Recall")
+	for i in cnt:
+		print (i,":",recalldic[i])
 
 
 	accuracyDF=kNNs.loc[:,["1st_ham","2nd_ham"]].copy()
@@ -593,8 +599,7 @@ drawLine()
 print("testSet")
 for alg in runtimeIndex:
 	perSolvedandAveTime(alg+"",testResult[alg])
-print("oracle_portfolio")
-perSolvedandAveTime("",testResult.Oracle_value.values)
+perSolvedandAveTime("oracle",trainResult.Oracle_value.values)
 
 for mName in "DT,RF,kNN".split(","):
 	drawLine()
