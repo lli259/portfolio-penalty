@@ -66,7 +66,7 @@ def printportfolio(df3):
 					if df3[i][0]<=fulltime-2*fiexedRT:
 						timeForPred[i]=	df3[i][0]+2*fiexedRT
 
-	perSolvedandAveTime("portfolio",thirdruntime)
+	perSolvedandAveTime("portfolio",timeForPred)
 	print("\n")
 
 def relative_score(y_true, y_pred):
