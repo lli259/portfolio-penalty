@@ -31,9 +31,6 @@ PANELTY_TIME=200
 NORMALIZE=1
 Medium_diff=0
 
-np.random.seed(1)
-random.seed(1)
-
 def getError(y, y_):
 	#print(str(-relative_score(y, y_))+"  /  "+str(-max_relative_score(y, y_))+"  /  "+str(mean_squared_error(y, y_)**0.5))
 	print(str(-relative_score(y, y_))+" /  "+str(mean_squared_error(y, y_)**0.5))
@@ -44,18 +41,11 @@ def perSolvedandAveTime(p,l):
 		if i<TIME_MAX-1:
 			ret.append(i)
 	if not p=="":
-		if len(ret)!=0:
-			print(p,float(len(ret))/len(l),"/",float(sum(ret))/len(ret))
-			#print(p,sum([1 if i<TIME_MAX-1 else 0 for i in l])/float(len(l))," / ",sum(l)/float(len(l)))
-		else:
-			print(p,float(0),"/",float(0))
+		print(p,float(len(ret))/len(l),"/",float(sum(ret))/len(ret))
+		#print(p,sum([1 if i<TIME_MAX-1 else 0 for i in l])/float(len(l))," / ",sum(l)/float(len(l)))
 	else:
-			if len(ret)!=0:
-				print(float(len(ret))/len(l),"/",float(sum(ret))/len(ret))
-				#print(p,sum([1 if i<TIME_MAX-1 else 0 for i in l])/float(len(l))," / ",sum(l)/float(len(l)))
-			else:
-				print(float(0),"/",float(0))
-				#print(sum([1 if i<TIME_MAX-1 else 0 for i in l])/float(len(l))," / ",sum(l)/float(len(l)))
+		print(float(len(ret))/len(l),"/",float(sum(ret))/len(ret))
+		#print(sum([1 if i<TIME_MAX-1 else 0 for i in l])/float(len(l))," / ",sum(l)/float(len(l)))
 	#pass
 
 def printportfolio(df3):
@@ -181,15 +171,13 @@ allCombine["Oracle_value"]=oracle_value
 allCombine["Oracle_name"]=Oracle_name
 
 #allCombine["Oracle"]=
-#allCombine.sort_values(['num_of_nodes', 'num_of_edges',"bi_edge"], ascending=[True, True,True])
-
-allCombine=allCombine.iloc[np.random.permutation(len(allCombine))]
+allCombine.sort_values(['num_of_nodes', 'num_of_edges',"bi_edge"], ascending=[True, True,True])
 
 #print(allCombine.shape)
 #print(allCombine.head(2))
 
 # get testing data 20% of the full data:
-
+random.seed(1)
 testIndex=random.sample(range(allCombine.shape[0]), int(allCombine.shape[0]*0.2))
 
 trainIndex=list(range(allCombine.shape[0]))
